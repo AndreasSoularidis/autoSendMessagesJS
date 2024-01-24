@@ -3,12 +3,20 @@ const MAX = 2000;
 
 let intervalId;
 
+let smallText = document.querySelector("#small-msg");
+let mediumText = document.querySelector("#medium-msg");
+let largeText = document.querySelector("#large-msg");
+
 class Counter{
     static counter = 1;
 
     static increaseCounter(){
         this.counter += 1;
         return this.counter;
+    }
+
+    static resetCounter(){
+        this.counter = 1;
     }
 }
 
@@ -24,19 +32,29 @@ function computeRandomTime(min, max){
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
+function getMessageLength(){
+    if(smallText.checked)
+        return "small";
+    if(mediumText.checked)
+        return "medium";
+    return "large";
+}
+
 function startSending(){
     let time = computeRandomTime(MIN, MAX);
-    sendMessage();
+    let messageLength = getMessageLength();
+    sendMessage(messageLength);
+    Counter.increaseCounter(); 
     intervalId = setTimeout(startSending, time);
 }
 
 function stopSending(){
     clearInterval(intervalId);
     console.log("I stop sending messages!");
-    console.log("Messages were sent in total: ", Counter.counter);
+    console.log("Messages sent in total: ", Counter.counter-1);
+    Counter.resetCounter();
 }
 
-function sendMessage(){
-    console.log("I send the message with id ", Counter.counter);
-    Counter.increaseCounter();  
+function sendMessage(messageLength){
+    console.log("I send a ", messageLength ," message with id ", Counter.counter);
 }
