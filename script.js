@@ -1,7 +1,7 @@
 const MIN = 500;
 const MAX = 2000;
 
-let intervalId;
+let timeoutID;
 
 let smallText = document.querySelector("#small-msg");
 let mediumText = document.querySelector("#medium-msg");
@@ -45,11 +45,11 @@ function startSending(){
     let messageLength = getMessageLength();
     sendMessage(messageLength);
     Counter.increaseCounter(); 
-    intervalId = setTimeout(startSending, time);
+    timeoutID = setTimeout(startSending, time);
 }
 
 function stopSending(){
-    clearInterval(intervalId);
+    clearTimeout(timeoutID);
     console.log("I stop sending messages!");
     console.log("Messages sent in total: ", Counter.counter-1);
     Counter.resetCounter();
